@@ -1,0 +1,24 @@
+version: '3'
+services: 
+  postgres:
+    image: 
+      'postgres:latest'
+    volumes:
+      - ./postgres:/postgres
+    ports: 
+      - '5434:5432'
+  api: 
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./server
+    volumes:
+      - /app/src/node_modules
+      - ./server:/app
+    environment:
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=dddshop
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432 
+    ports: 
+      - "8080:5000"
